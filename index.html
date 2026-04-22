@@ -6,7 +6,6 @@
   <title>Loan Eligibility Checker</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #f0ebe4;
@@ -16,7 +15,6 @@
       justify-content: center;
       padding: 2rem 1rem;
     }
-
     .card {
       background: #ffffff;
       border: 1px solid #e0d8cf;
@@ -323,7 +321,6 @@
   </div>
 
   <button class="btn" onclick="checkEligibility()">Check Eligibility →</button>
-
   <div class="result" id="result">
     <div class="result-head">
       <div class="result-badge" id="rIcon"></div>
@@ -333,7 +330,6 @@
     <div class="factors" id="rFactors"></div>
   </div>
 </div>
-
 <script>
   document.getElementById('creditInput').addEventListener('input', function () {
     var v = parseInt(this.value) || 300;
@@ -351,7 +347,6 @@
     tag.style.color       = color;
     tag.textContent       = label;
   });
-
   function checkEligibility() {
     var age     = parseInt(document.getElementById('age').value) || 0;
     var income  = parseInt(document.getElementById('income').value) || 0;
@@ -365,42 +360,33 @@
       alert('Please fill in all fields before checking eligibility.');
       return;
     }
-
     var score = 0;
     if      (credit >= 750) score += 30;
     else if (credit >= 700) score += 22;
     else if (credit >= 650) score += 14;
     else if (credit >= 600) score += 7;
-
     var ratio = loan / income;
     if      (ratio < 2)   score += 25;
     else if (ratio < 3.5) score += 18;
     else if (ratio < 5)   score += 10;
     else                  score += 3;
-
     if      (emp >= 5) score += 20;
     else if (emp >= 3) score += 14;
     else if (emp >= 1) score += 8;
-
     if      (income >= 800000) score += 15;
     else if (income >= 500000) score += 10;
     else if (income >= 300000) score += 6;
-
     if      (edu === 'phd' || edu === 'masters') score += 10;
     else if (edu === 'bachelors')                score += 7;
-
     if      (housing === 'own')      score += 5;
     else if (housing === 'mortgage') score += 3;
-
     var r  = document.getElementById('result');
     r.style.display = 'block';
     r.className = 'result';
-
     var ri = document.getElementById('rIcon');
     var rt = document.getElementById('rTitle');
     var rm = document.getElementById('rMsg');
     var rf = document.getElementById('rFactors');
-
     if (score >= 70) {
       r.classList.add('approved'); ri.textContent = '✓';
       rt.textContent = 'Likely approved';
@@ -414,21 +400,17 @@
       rt.textContent = 'Low eligibility';
       rm.textContent = 'Your current profile may not meet standard criteria. Focus on building your credit score and employment history before reapplying.';
     }
-
     var cr = credit >= 750 ? 'Excellent' : credit >= 700 ? 'Good' : credit >= 650 ? 'Fair' : 'Poor';
     rf.innerHTML =
       factor('Credit score', credit + ' · ' + cr) +
       factor('Debt-to-income', ratio.toFixed(1) + 'x · ' + (ratio < 2 ? 'Great' : ratio < 3.5 ? 'Good' : ratio < 5 ? 'Fair' : 'High')) +
       factor('Employment', emp + ' yr' + (emp === 1 ? '' : 's') + ' · ' + (emp >= 5 ? 'Strong' : emp >= 3 ? 'Moderate' : 'Limited')) +
       factor('Score', score + ' / 100');
-
     r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
-
   function factor(label, val) {
     return '<div class="factor"><div class="factor-label">' + label + '</div><div class="factor-val">' + val + '</div></div>';
   }
 </script>
-
 </body>
 </html>
